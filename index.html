@@ -12,7 +12,7 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: #ff0000; 
+      background: #00ff00; 
       font-family: 'Arial', sans-serif;
       overflow: hidden;
       transition: background 1.5s ease;
@@ -119,8 +119,7 @@
   <h1>Love From Sayan</h1>
   <button id="surpriseBtn">Surprise Me</button>
   <div id="secret">
-    <p>💌 Waiting for the Answer... 💌</p>
-    <div id="timer">Waiting for the Answer</div>
+   <h1>💌 Waiting for the Answer... 💌</h1>
     <p>See you soon, my love ✨</p>
     
     <a id="waBtn" href="https://wa.me/918436312171?text=Yes!%20I%20will%20be%20your%20Valentine!%20❤️✨" target="_blank">
@@ -189,7 +188,7 @@
   function spawnName() {
     const n = document.createElement('div');
     n.className = 'name';
-    n.textContent = 'Gulu ❤️';
+    n.textContent = 'Gulu ❤️, Bidisha ❤️';
     n.style.left = Math.random() * 100 + 'vw';
     n.style.setProperty('--dx', (Math.random() * 100 - 50) + 'px');
     nameLayer.appendChild(n);
@@ -198,4 +197,5 @@
 
   yesBtn.addEventListener('click', () => {
     confetti({ particleCount: 150, spread: 60, origin: { y: 0.
+
 
