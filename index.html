@@ -119,8 +119,8 @@
   <h1>Love From Sayan</h1>
   <button id="surpriseBtn">Surprise Me</button>
   <div id="secret">
-    <p>💌 Counting down until I see you again... 💌</p>
-    <div id="timer">Loading timer...</div>
+    <p>💌 Waiting for the Answer... 💌</p>
+    <div id="timer">Waiting for the Answer</div>
     <p>See you soon, my love ✨</p>
     
     <a id="waBtn" href="https://wa.me/918436312171?text=Yes!%20I%20will%20be%20your%20Valentine!%20❤️✨" target="_blank">
@@ -143,23 +143,9 @@
   const secret = document.getElementById('secret');
   const heartsLayer = document.querySelector('.hearts-layer');
   const nameLayer = document.querySelector('.name-layer');
-  const timerDisplay = document.getElementById('timer');
 
   let yesScale = 1;
   let noHasMoved = false;
-
-  const meetingDate = new Date("2026-07-14T00:00:00").getTime();
-
-  function updateTimer() {
-    const now = new Date().getTime();
-    const diff = meetingDate - now;
-    if (diff < 0) { timerDisplay.innerHTML = "The day is here! ❤️"; return; }
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-    timerDisplay.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
-  }
 
   function moveNo() {
     if (!noHasMoved) {
@@ -211,23 +197,5 @@
   }
 
   yesBtn.addEventListener('click', () => {
-    confetti({ particleCount: 150, spread: 60, origin: { y: 0.7 } });
-    setTimeout(() => {
-      page1.style.display = 'none';
-      noBtn.style.display = 'none';
-      document.body.style.background = "linear-gradient(180deg, #ff4d4d, #ff9eb8)";
-      page2.style.display = 'block';
-      setInterval(spawnName, 800);
-    }, 400);
-  });
+    confetti({ particleCount: 150, spread: 60, origin: { y: 0.
 
-  surpriseBtn.addEventListener('click', () => {
-    secret.style.display = 'block';
-    surpriseBtn.style.display = 'none';
-    setInterval(updateTimer, 1000);
-    updateTimer();
-    confetti({ particleCount: 80, spread: 80 });
-  });
-</script>
-
-</body>
