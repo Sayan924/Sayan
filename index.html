@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Valentine 💖</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> 
   <style>
-    /* --- SHARED STYLES --- */
     html, body { height: 100%; margin: 0; padding: 0; }
     body {
       height: 100vh;
@@ -13,174 +12,222 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: #ffe6ec; /* Start background from index.html */
+      background: #ff0000; 
       font-family: 'Arial', sans-serif;
       overflow: hidden;
-      transition: background 1.5s ease; /* Smooth transition between pages */
-      color: #d1004f;
+      transition: background 1.5s ease;
+      color: white;
       text-align: center;
+      padding: 20px;
+      box-sizing: border-box;
     }
 
-    /* --- PAGE 1: PROPOSAL STYLES --- */
-    #page1 {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+    /* Rainbow Heart Animation for Page 1 */
+    .rainbow-text {
+      display: inline-block;
+      animation: colorCycle 3s infinite linear;
+      font-size: 1.2em;
+    }
+
+    @keyframes colorCycle {
+      0% { color: #00ff00; }
+      25% { color: #ffff00; }
+      50% { color: #00bfff; }
+      75% { color: #ff69b4; }
+      100% { color: #00ff00; }
+    }
+
+    #page1 h1 { font-size: 28px; padding: 0 10px; line-height: 1.4; z-index: 10; position: relative; }
+    #page1 { z-index: 10; display: flex; flex-direction: column; align-items: center; width: 100%; }
+    
+    .buttons { 
+      display: flex; 
+      flex-direction: row; 
+      gap: 15px; 
+      margin-top: 30px; 
+      position: relative; 
+      width: 100%; 
+      justify-content: center; 
       z-index: 10;
     }
-    .buttons { display: flex; align-items: center; gap: 20px; position: relative; }
+
     button {
-      padding: 15px 30px;
+      padding: 15px 25px;
       font-size: 18px;
-      border-radius: 10px;
+      border-radius: 12px;
       border: none;
       cursor: pointer;
       font-weight: bold;
+      touch-action: manipulation;
+      transition: transform 0.2s ease, left 0.3s ease, top 0.3s ease;
     }
-    #yes { background: #ff2f6d; color: white; }
-    #no  { background: #555; color: white; position: fixed; transition: left 140ms ease, top 140ms ease; left: 60%; top: 50%; }
 
-    /* --- PAGE 2: LOVE MESSAGE STYLES --- */
-    #page2 {
-      display: none; /* Hidden until YES is clicked */
-      z-index: 10;
-      color: white;
+    #yes { background: #ffffff; color: #ff0000; min-width: 100px; z-index: 11; }
+    #no { background: #555; color: white; z-index: 10; position: relative; }
+
+    #page2 { display: none; z-index: 10; width: 100%; }
+    #page2 h1 { font-size: 32px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+
+    #surpriseBtn, #waBtn {
+      background: #ffffff; color: #ff2f6d;
+      padding: 14px 40px; border-radius: 30px; border: none; font-size: 18px;
+      margin-top: 10px; text-decoration: none; display: inline-block;
+      font-weight: bold;
     }
-    #page2 h1 {
-      font-size: 42px;
-      font-weight: 300;
-      letter-spacing: 2px;
-      margin-bottom: 40px;
-      text-shadow: 0 0 12px rgba(255,255,255,0.6);
-      color: white;
-    }
+    
+    #waBtn { background: #25D366; color: white; margin-top: 20px; font-size: 16px; text-decoration: none; }
+
     #secret {
-      margin-top: 40px;
-      font-size: 22px;
-      max-width: 80%;
-      line-height: 1.6;
-      background: rgba(255, 255, 255, 0.2);
-      padding: 20px;
-      border-radius: 20px;
-      backdrop-filter: blur(5px);
+      display: none; margin: 20px auto; font-size: 18px; width: 95%;
+      background: rgba(255, 255, 255, 0.25); padding: 25px;
+      border-radius: 20px; backdrop-filter: blur(10px);
+      box-sizing: border-box;
     }
 
-    /* --- EFFECTS & OVERLAYS --- */
-    #sticker {
-      position: fixed;
-      left: 50%;
-      top: 45%;
-      transform: translate(-50%, -50%) scale(0.9);
-      max-width: 70%;
-      max-height: 60%;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 220ms ease, transform 300ms cubic-bezier(.2,.9,.2,1);
-      z-index: 9999;
-    }
-    #sticker.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    #timer { font-size: 24px; font-weight: bold; margin: 15px 0; }
 
-    .hearts-layer {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 2;
+    .hearts-layer, .name-layer { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+    .hearts-layer { z-index: 2; }
+    .name-layer { z-index: 15; }
+
+    .heart { position: absolute; bottom: -60px; user-select: none; z-index: 2; }
+    .name {
+      position: absolute; bottom: -60px; color: white; font-size: 20px; font-weight: bold;
+      text-shadow: 0 0 10px rgba(255,255,255,0.9);
+      animation: heartFloat 5s linear forwards;
     }
-    .heart {
-      position: absolute;
-      bottom: -60px;
-      user-select: none;
-      will-change: transform, opacity;
-      display: inline-block;
-    }
+
     @keyframes heartFloat {
-      0%   { transform: translateY(0) translateX(0) scale(0.85) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-140vh) translateX(var(--dx, 0px)) scale(1.05) rotate(var(--rot, 0deg)); opacity: 0; }
+      0%   { transform: translateY(0) translateX(0) scale(0.8); opacity: 1; }
+      100% { transform: translateY(-120vh) translateX(var(--dx, 0px)) scale(1.1); opacity: 0; }
     }
   </style>
 </head>
+
 <body>
 
-  <div id="page1">
-    <h1>Will you be my Valentine? 💘</h1>
-    <div class="buttons">
-      <button id="yes" type="button">Yes ❤️</button>
-      <button id="no"  type="button">No 😜</button>
-    </div>
+<div id="page1">
+  <h1>Will you be my Valentine? <span class="rainbow-text">❤️</span></h1>
+  <div class="buttons">
+    <button id="yes">Yes ❤️</button>
+    <button id="no">No 😜</button>
   </div>
+</div>
 
-  <div id="page2">
-    <h1>I Love You<br>Shivani 💖</h1>
-    <div id="secret">
-      💌 You are the most beautiful part of my life.<br>
-      Saying YES made my world brighter 🌸✨
-    </div>
+<div id="page2">
+  <h1>I Love You 💘</h1>
+  <h1>Love From Sayan</h1>
+  <button id="surpriseBtn">Surprise Me</button>
+  <div id="secret">
+    <p>💌 Counting down until I see you again... 💌</p>
+    <div id="timer">Loading timer...</div>
+    <p>See you soon, my love ✨</p>
+    
+    <a id="waBtn" href="https://wa.me/918436312171?text=Yes!%20I%20will%20be%20your%20Valentine!%20❤️✨" target="_blank">
+      Reply on WhatsApp 📱
+    </a>
   </div>
+</div>
 
-  <img id="sticker" src="https://raw.githubusercontent.com/sayonmallick/Guest/main/myphoto.jpg" alt="Sticker">
-  <div class="hearts-layer" aria-hidden="true"></div>
+<div class="hearts-layer"></div>
+<div class="name-layer"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-  <script>
-    const page1 = document.getElementById('page1');
-    const page2 = document.getElementById('page2');
-    const yesBtn = document.getElementById('yes');
-    const noBtn = document.getElementById('no');
-    const sticker = document.getElementById('sticker');
-    const heartsLayer = document.querySelector('.hearts-layer');
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    // --- NO BUTTON JUMP LOGIC ---
-    function moveNo() {
-      const padding = 20;
-      const maxX = window.innerWidth - noBtn.offsetWidth - padding;
-      const maxY = window.innerHeight - noBtn.offsetHeight - padding;
-      noBtn.style.left = Math.random() * maxX + 'px';
-      noBtn.style.top  = Math.random() * maxY + 'px';
+<script>
+  const page1 = document.getElementById('page1');
+  const page2 = document.getElementById('page2');
+  const yesBtn = document.getElementById('yes');
+  const noBtn = document.getElementById('no');
+  const surpriseBtn = document.getElementById('surpriseBtn');
+  const secret = document.getElementById('secret');
+  const heartsLayer = document.querySelector('.hearts-layer');
+  const nameLayer = document.querySelector('.name-layer');
+  const timerDisplay = document.getElementById('timer');
+
+  let yesScale = 1;
+  let noHasMoved = false;
+
+  const meetingDate = new Date("2026-07-14T00:00:00").getTime();
+
+  function updateTimer() {
+    const now = new Date().getTime();
+    const diff = meetingDate - now;
+    if (diff < 0) { timerDisplay.innerHTML = "The day is here! ❤️"; return; }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+    timerDisplay.innerHTML = `${days}d ${hours}h ${mins}m ${secs}s`;
+  }
+
+  function moveNo() {
+    if (!noHasMoved) {
+        noBtn.style.position = 'fixed';
+        noHasMoved = true;
     }
-    noBtn.addEventListener('mouseenter', moveNo);
-    noBtn.addEventListener('click', (e) => { e.preventDefault(); moveNo(); });
+    const x = Math.random() * (window.innerWidth * 0.7);
+    const y = Math.random() * (window.innerHeight * 0.7);
+    noBtn.style.left = x + 'px';
+    noBtn.style.top  = y + 'px';
+    
+    yesScale += 0.15;
+    yesBtn.style.transform = `scale(${yesScale})`;
+  }
 
-    // --- HEART RAIN SYSTEM ---
-    function spawnHeart() {
-      const el = document.createElement('div');
-      el.className = 'heart';
-      el.textContent = ['❤️','💖','💘','💕'][Math.floor(Math.random() * 4)];
-      el.style.left = Math.random() * 100 + 'vw';
-      el.style.fontSize = (16 + Math.random() * 30) + 'px';
-      el.style.setProperty('--dx', (Math.random() * 100 - 50) + 'px');
-      el.style.setProperty('--rot', (Math.random() * 60 - 30) + 'deg');
-      el.style.animation = heartFloat ${3000 + Math.random() * 3000}ms linear forwards;
-
-      heartsLayer.appendChild(el);
-      setTimeout(() => el.remove(), 6000);
+  noBtn.addEventListener('mouseover', moveNo);
+  noBtn.addEventListener('touchstart', (e) => { 
+    if(Math.random() > 0.3) {
+        e.preventDefault(); 
+        moveNo(); 
     }
+  });
 
-    // --- TRANSITION LOGIC ---
-    yesBtn.addEventListener('click', () => {
-      // 1. Show celebration from index.html
-      sticker.classList.add('show');
-      confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+  function spawnHeart() {
+    const el = document.createElement('div');
+    el.className = 'heart';
+    el.textContent = '❤️'; 
+    const colors = ['#00ff00', '#ffff00', '#00bfff', '#ff69b4', '#ffffff', '#ffa500'];
+    el.style.color = colors[Math.floor(Math.random() * colors.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (16 + Math.random() * 25) + 'px';
+    el.style.setProperty('--dx', (Math.random() * 80 - 40) + 'px');
+    el.style.animation = `heartFloat ${4 + Math.random() * 2}s linear forwards`;
+    heartsLayer.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+  
+  // START MULTICOLORED RAIN IMMEDIATELY (For First Page)
+  setInterval(spawnHeart, 400);
 
-      // 2. Switch to Love.html content
-      setTimeout(() => {
-        sticker.classList.remove('show');
-        page1.style.display = 'none';
-        
-        // Transition to the gradient background from Love.html
-        document.body.style.background = "linear-gradient(180deg, #ff7aa2, #ff9eb8)";
-        
-        page2.style.display = 'block';
-        
-        // Start heavy heart rain
-        setInterval(spawnHeart, 300);
-      }, 2000);
-    });
+  function spawnName() {
+    const n = document.createElement('div');
+    n.className = 'name';
+    n.textContent = 'Gulu ❤️';
+    n.style.left = Math.random() * 100 + 'vw';
+    n.style.setProperty('--dx', (Math.random() * 100 - 50) + 'px');
+    nameLayer.appendChild(n);
+    setTimeout(() => n.remove(), 5000);
+  }
 
-    // Initial subtle hearts
-    setInterval(spawnHeart, 1000);
-  </script>
+  yesBtn.addEventListener('click', () => {
+    confetti({ particleCount: 150, spread: 60, origin: { y: 0.7 } });
+    setTimeout(() => {
+      page1.style.display = 'none';
+      noBtn.style.display = 'none';
+      document.body.style.background = "linear-gradient(180deg, #ff4d4d, #ff9eb8)";
+      page2.style.display = 'block';
+      setInterval(spawnName, 800);
+    }, 400);
+  });
+
+  surpriseBtn.addEventListener('click', () => {
+    secret.style.display = 'block';
+    surpriseBtn.style.display = 'none';
+    setInterval(updateTimer, 1000);
+    updateTimer();
+    confetti({ particleCount: 80, spread: 80 });
+  });
+</script>
+
 </body>
-</html>
